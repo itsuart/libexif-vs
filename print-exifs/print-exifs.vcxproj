@@ -20,21 +20,21 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{91ed6188-259f-4e98-937c-b4ac03d4739e}</ProjectGuid>
+    <ProjectGuid>{92fcbc9a-030e-45a4-bbc1-9be91b716712}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>libexif_for_vs</RootNamespace>
+    <RootNamespace>print_exifs</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -42,14 +42,14 @@
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <SpectreMitigation>false</SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -74,13 +74,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(PlatformShortName)-$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(PlatformTarget)-$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)-$(PlatformShortName)</TargetName>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)bin\$(PlatformShortName)-$(Configuration)\</OutDir>
     <IntDir>$(ProjectDir)obj\$(PlatformTarget)-$(Configuration)\</IntDir>
@@ -98,45 +98,43 @@
     <IntDir>$(ProjectDir)obj\$(PlatformTarget)-$(Configuration)\</IntDir>
     <TargetName>$(ProjectName)-$(PlatformShortName)</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level4</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;DLL1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>./exports;./src</AdditionalIncludeDirectories>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>src/module.def</ModuleDefinitionFile>
-    </Link>
-    <PostBuildEvent>
-      <Command>lib /OUT:"$(ProjectDir)bin\$(PlatformShortName)-$(Configuration)\$(ProjectName)-static.lib" "$(ProjectDir)obj\$(PlatformTarget)-$(Configuration)\*.obj"</Command>
-    </PostBuildEvent>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;DLL1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>./exports;./src</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)libexif\exports</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>src/module.def</ModuleDefinitionFile>
+      <AdditionalDependencies>libexif-static.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./libs;$(SolutionDir)libexif\bin\$(PlatformShortName)-$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>lib /OUT:"$(ProjectDir)bin\$(PlatformShortName)-$(Configuration)\$(ProjectName)-static.lib" "$(ProjectDir)obj\$(PlatformTarget)-$(Configuration)\*.obj"</Command>
-    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)libexif\exports</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>libexif-static.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./libs;$(SolutionDir)libexif\bin\$(PlatformShortName)-$(Configuration)\</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -146,21 +144,20 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;DLL1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>./exports;./src</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)libexif\exports</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>src/module.def</ModuleDefinitionFile>
+      <AdditionalDependencies>libexif-static.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./libs;$(SolutionDir)libexif\bin\$(PlatformShortName)-$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>lib /OUT:"$(ProjectDir)bin\$(PlatformShortName)-$(Configuration)\$(ProjectName)-static.lib" "$(ProjectDir)obj\$(PlatformTarget)-$(Configuration)\*.obj"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -170,84 +167,23 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;DLL1_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp14</LanguageStandard>
-      <AdditionalIncludeDirectories>./exports;./src</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)libexif\exports</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>src/module.def</ModuleDefinitionFile>
+      <AdditionalDependencies>libexif-static.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./libs;$(SolutionDir)libexif\bin\$(PlatformShortName)-$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>lib /OUT:"$(ProjectDir)bin\$(PlatformShortName)-$(Configuration)\$(ProjectName)-static.lib" "$(ProjectDir)obj\$(PlatformTarget)-$(Configuration)\*.obj"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\libexif\canon\exif-mnote-data-canon.c" />
-    <ClCompile Include="src\libexif\canon\mnote-canon-entry.c" />
-    <ClCompile Include="src\libexif\canon\mnote-canon-tag.c" />
-    <ClCompile Include="src\dllmain.cc" />
-    <ClCompile Include="src\libexif\exif-byte-order.c" />
-    <ClCompile Include="src\libexif\exif-content.c" />
-    <ClCompile Include="src\libexif\exif-data.c" />
-    <ClCompile Include="src\libexif\exif-entry.c" />
-    <ClCompile Include="src\libexif\exif-format.c" />
-    <ClCompile Include="src\libexif\exif-ifd.c" />
-    <ClCompile Include="src\libexif\exif-loader.c" />
-    <ClCompile Include="src\libexif\exif-log.c" />
-    <ClCompile Include="src\libexif\exif-mem.c" />
-    <ClCompile Include="src\libexif\exif-mnote-data.c" />
-    <ClCompile Include="src\libexif\exif-tag.c" />
-    <ClCompile Include="src\libexif\exif-utils.c" />
-    <ClCompile Include="src\libexif\fuji\exif-mnote-data-fuji.c" />
-    <ClCompile Include="src\libexif\fuji\mnote-fuji-entry.c" />
-    <ClCompile Include="src\libexif\fuji\mnote-fuji-tag.c" />
-    <ClCompile Include="src\libexif\olympus\exif-mnote-data-olympus.c" />
-    <ClCompile Include="src\libexif\olympus\mnote-olympus-entry.c" />
-    <ClCompile Include="src\libexif\olympus\mnote-olympus-tag.c" />
-    <ClCompile Include="src\libexif\pentax\exif-mnote-data-pentax.c" />
-    <ClCompile Include="src\libexif\pentax\mnote-pentax-entry.c" />
-    <ClCompile Include="src\libexif\pentax\mnote-pentax-tag.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\module.def" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\config.h" />
-    <ClInclude Include="src\libexif\exif.h" />
-    <ClInclude Include="exports\libexif\_stdint.h" />
-    <ClInclude Include="src\libexif\canon\exif-mnote-data-canon.h" />
-    <ClInclude Include="src\libexif\canon\mnote-canon-entry.h" />
-    <ClInclude Include="src\libexif\canon\mnote-canon-tag.h" />
-    <ClInclude Include="exports\libexif\exif-byte-order.h" />
-    <ClInclude Include="exports\libexif\exif-content.h" />
-    <ClInclude Include="exports\libexif\exif-data-type.h" />
-    <ClInclude Include="exports\libexif\exif-data.h" />
-    <ClInclude Include="exports\libexif\exif-entry.h" />
-    <ClInclude Include="exports\libexif\exif-format.h" />
-    <ClInclude Include="exports\libexif\exif-ifd.h" />
-    <ClInclude Include="exports\libexif\exif-loader.h" />
-    <ClInclude Include="exports\libexif\exif-log.h" />
-    <ClInclude Include="exports\libexif\exif-mem.h" />
-    <ClInclude Include="src\libexif\exif-mnote-data-priv.h" />
-    <ClInclude Include="exports\libexif\exif-mnote-data.h" />
-    <ClInclude Include="exports\libexif\exif-system.h" />
-    <ClInclude Include="exports\libexif\exif-tag.h" />
-    <ClInclude Include="exports\libexif\exif-utils.h" />
-    <ClInclude Include="src\libexif\fuji\exif-mnote-data-fuji.h" />
-    <ClInclude Include="src\libexif\fuji\mnote-fuji-entry.h" />
-    <ClInclude Include="src\libexif\fuji\mnote-fuji-tag.h" />
-    <ClInclude Include="src\libexif\i18n.h" />
-    <ClInclude Include="src\libexif\olympus\exif-mnote-data-olympus.h" />
-    <ClInclude Include="src\libexif\olympus\mnote-olympus-entry.h" />
-    <ClInclude Include="src\libexif\olympus\mnote-olympus-tag.h" />
-    <ClInclude Include="src\libexif\pentax\exif-mnote-data-pentax.h" />
-    <ClInclude Include="src\libexif\pentax\mnote-pentax-entry.h" />
-    <ClInclude Include="src\libexif\pentax\mnote-pentax-tag.h" />
+    <ClCompile Include="src\main.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
